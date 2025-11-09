@@ -4,7 +4,8 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: url("images/default.png") center/cover no-repeat;
+  width: 100%;
+  background: url("images/default.png") center/cover no-repeat fixed;
   transition: background-image 0.5s ease-in-out;
   margin: 0;
   color: white;
@@ -13,21 +14,36 @@ body {
 .timer-container {
   text-align: center;
   background-color: rgba(0, 0, 0, 0.5);
-  padding: 30px;
+  padding: clamp(15px, 4vw, 30px);
   border-radius: 15px;
+  width: min(90%, 600px);
 }
 
 #timeDisplay {
-  font-size: 5rem;
+  font-size: clamp(3rem, 8vw, 5rem);
   font-weight: bold;
   margin: 20px 0;
 }
 
 button, select {
   padding: 10px 20px;
-  font-size: 1rem;
+  font-size: clamp(0.875rem, 2vw, 1rem);
   margin: 5px;
   cursor: pointer;
   border-radius: 8px;
   border: none;
+}
+
+@media (max-width: 480px) {
+  .controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  select, button {
+    width: 100%;
+    max-width: 250px;
+  }
 }
