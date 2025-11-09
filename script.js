@@ -12,18 +12,35 @@ const resetBtn = document.getElementById("resetBtn");
 function setTimes() {
   const type = speechType.value;
 
-  if (type === "1-2") {
-    greenTime = 1 * 60;
-    yellowTime = 1.5 * 60;
-    redTime = 2 * 60;
-  } else if (type === "2-3") {
-    greenTime = 2 * 60;
-    yellowTime = 2.5 * 60;
-    redTime = 3 * 60;
-  } else {
-    greenTime = 4 * 60;
-    yellowTime = 5 * 60;
-    redTime = 6 * 60;
+  switch (type) {
+    case "1-2": // Evaluation
+      greenTime = 1 * 60;
+      yellowTime = 1.5 * 60;
+      redTime = 2 * 60;
+      break;
+
+    case "2-3": // Table Topic
+      greenTime = 2 * 60;
+      yellowTime = 2.5 * 60;
+      redTime = 3 * 60;
+      break;
+
+    case "4-6": // Prepared Speech
+      greenTime = 4 * 60;
+      yellowTime = 5 * 60;
+      redTime = 6 * 60;
+      break;
+
+    case "5": // General Evaluator Report (fixed 5 min)
+      greenTime = 4 * 60;
+      yellowTime = 4.5 * 60;
+      redTime = 5 * 60;
+      break;
+
+    default:
+      greenTime = 0;
+      yellowTime = 0;
+      redTime = 0;
   }
 
   elapsedTime = 0;
