@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Toastmasters Countdown Timer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="timer-container">
+    <h1>Toastmasters Timer</h1>
+
+    <div class="controls">
+      <select id="speechType">
+        <option value="1-2">Short Speech (1–2 minutes)</option>
+        <option value="2-3">Table Topic (2–3 minutes)</option>
+        <option value="4-6">Prepared Speech (4–6 minutes)</option>
+      </select>
+
+      <div class="buttons">
+        <button id="startBtn">Start</button>
+        <button id="pauseBtn">Pause</button>
+        <button id="resetBtn">Reset</button>
+      </div>
+    </div>
+
+    <div id="timeDisplay">00:00</div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

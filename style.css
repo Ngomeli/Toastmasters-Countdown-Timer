@@ -1,0 +1,33 @@
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: url("images/default.png") center/cover no-repeat;
+  transition: background-image 0.5s ease-in-out;
+  margin: 0;
+  color: white;
+}
+
+.timer-container {
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 30px;
+  border-radius: 15px;
+}
+
+#timeDisplay {
+  font-size: 5rem;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+button, select {
+  padding: 10px 20px;
+  font-size: 1rem;
+  margin: 5px;
+  cursor: pointer;
+  border-radius: 8px;
+  border: none;
+}
