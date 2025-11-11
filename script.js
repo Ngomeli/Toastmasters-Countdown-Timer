@@ -2,45 +2,38 @@ let timer;
 let elapsedTime = 0;
 let isRunning = false;
 let greenTime, yellowTime, redTime;
+let selectedType = "1-2"; // default
 
 const timeDisplay = document.getElementById("timeDisplay");
-const speechType = document.getElementById("speechType");
+const speechButtons = document.getElementById("speechButtons");
 const startBtn = document.getElementById("startBtn");
 const pauseBtn = document.getElementById("pauseBtn");
 const resetBtn = document.getElementById("resetBtn");
 
 function setTimes() {
-  const type = speechType.value;
-
-  switch (type) {
+  switch (selectedType) {
     case "1-2": // Evaluation
       greenTime = 1 * 60;
       yellowTime = 1.5 * 60;
       redTime = 2 * 60;
       break;
-
     case "2-3": // Table Topic
       greenTime = 2 * 60;
       yellowTime = 2.5 * 60;
       redTime = 3 * 60;
       break;
-
     case "4-6": // Prepared Speech
       greenTime = 4 * 60;
       yellowTime = 5 * 60;
       redTime = 6 * 60;
       break;
-
     case "5": // General Evaluator Report (fixed 5 min)
       greenTime = 4 * 60;
       yellowTime = 4.5 * 60;
       redTime = 5 * 60;
       break;
-
     default:
-      greenTime = 0;
-      yellowTime = 0;
-      redTime = 0;
+      greenTime = yellowTime = redTime = 0;
   }
 
   elapsedTime = 0;
@@ -86,7 +79,21 @@ function resetTimer() {
   setTimes();
 }
 
-speechType.addEventListener("change", resetTimer);
+// Handle speech-type button clicks
+speechButtons.addEventListener("click", (e) => {
+  if (e.target.tagName === "BUTTON") {
+    selectedType = e.target.dataset.type;
+
+    // highlight selected button
+    document.querySelectorAll("#speechButtons button").forEach(btn =>
+      btn.classList.remove("active")
+    );
+    e.target.classList.add("active");
+
+    resetTimer();
+  }
+});
+
 startBtn.addEventListener("click", startTimer);
 pauseBtn.addEventListener("click", pauseTimer);
 resetBtn.addEventListener("click", resetTimer);
