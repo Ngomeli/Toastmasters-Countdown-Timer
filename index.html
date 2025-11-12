@@ -10,23 +10,25 @@
   <div class="timer-container">
     <h1>Toastmasters Timer</h1>
 
-    <div class="controls">
-      <div id="speechButtons" class="speech-buttons">
-        <button data-type="1-2">Evaluation (1–2 min)</button>
-        <button data-type="2-3">Table Topic (2–3 min)</button>
-        <button data-type="4-6">Prepared Speech (4–6 min)</button>
-        <button data-type="5">General Eval (5 min)</button>
-      </div>
+   <div class="controls">
+  <div class="speech-options">
+  <button class="speech-btn" data-type="2-3-eval">Evaluation (2–3 min)</button>
+  <button class="speech-btn" data-type="2-3-table">Table Topic (2–3 min)</button>
+  <button class="speech-btn" data-type="5-7-prep">Prepared Speech (5–7 min)</button>
+  <button class="speech-btn" data-type="5-7-ge">General Eval (5–7 min)</button>
+</div>
 
-      <div class="buttons-container">
-        <div class="buttons">
-          <button id="startBtn">Start</button>
-          <button id="pauseBtn">Pause</button>
-          <button id="resetBtn">Reset</button>
-          <button id="demoBtn">Demo</button>
-        </div>
-      </div>
+
+  <div class="buttons-container">
+    <div class="buttons">
+      <button id="startBtn">Start</button>
+      <button id="pauseBtn">Pause</button>
+      <button id="resetBtn">Reset</button>
+      <button id="demoBtn">Demo</button>
+      <button id="guestBtn">Special Guest</button> <!-- 👈 new button -->
     </div>
+  </div>
+</div>
 
     <div id="timeDisplay">00:00</div>
   </div>

@@ -3,45 +3,60 @@ let elapsedTime = 0;
 let isRunning = false;
 let greenTime, yellowTime, redTime;
 
+// Get elements
 const timeDisplay = document.getElementById("timeDisplay");
-const speechOptions = document.getElementsByName("speechType");
 const startBtn = document.getElementById("startBtn");
 const pauseBtn = document.getElementById("pauseBtn");
 const resetBtn = document.getElementById("resetBtn");
-const demoBtn = document.getElementById("demoBtn"); // 👈 new demo button
+const demoBtn = document.getElementById("demoBtn");
+const guestBtn = document.getElementById("guestBtn");
+const speechButtons = document.querySelectorAll(".speech-btn");
+
+let selectedType = "2-3-eval"; // default type
+
+// Handle button clicks for speech type selection
+speechButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    // Remove active class from all, then set active on clicked one
+    speechButtons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+
+    selectedType = btn.getAttribute("data-type");
+    resetTimer();
+  });
+});
 
 function getSelectedSpeechType() {
-  for (const option of speechOptions) {
-    if (option.checked) return option.value;
-  }
+  return selectedType;
 }
 
+// Set color change times
 function setTimes() {
   const type = getSelectedSpeechType();
 
   switch (type) {
-    case "1-2": // Evaluation
-      greenTime = 1 * 60;
-      yellowTime = 1.5 * 60;
-      redTime = 2 * 60;
-      break;
-
-    case "2-3": // Table Topic
+    case "2-3-eval": // Evaluation (2–3 min)
       greenTime = 2 * 60;
       yellowTime = 2.5 * 60;
       redTime = 3 * 60;
       break;
 
-    case "4-6": // Prepared Speech
-      greenTime = 4 * 60;
-      yellowTime = 5 * 60;
-      redTime = 6 * 60;
+    case "2-3-table": // Table Topic (2–3 min)
+      greenTime = 2 * 60;
+      yellowTime = 2.5 * 60;
+      redTime = 3 * 60;
       break;
 
-    case "5": // General Evaluator Report (5 min)
-      greenTime = 4 * 60;
-      yellowTime = 4.5 * 60;
-      redTime = 5 * 60;
+    case "5-7-prep": // Prepared Speech (5–7 min)
+      greenTime = 5 * 60;
+      yellowTime = 6 * 60;
+      redTime = 7 * 60;
+      break;
+
+    case "5-7-ge": // General Evaluator (5–7 min)
+      greenTime = 5 * 60;
+      yellowTime = 6 * 60;
+      redTime = 7 * 60;
       break;
 
     default:
@@ -55,6 +70,7 @@ function setTimes() {
   document.body.style.backgroundImage = "url('images/default.png')";
 }
 
+// Update time display
 function updateDisplay() {
   const minutes = Math.floor(elapsedTime / 60);
   const seconds = elapsedTime % 60;
@@ -63,11 +79,11 @@ function updateDisplay() {
     .padStart(2, "0")}`;
 }
 
+// Start timer function
 function startTimer(customTimes = null) {
   if (isRunning) return;
   isRunning = true;
 
-  // Use custom times if provided (for demo)
   const { gTime, yTime, rTime } = customTimes || {
     gTime: greenTime,
     yTime: yellowTime,
@@ -88,24 +104,26 @@ function startTimer(customTimes = null) {
       document.body.style.backgroundImage = "url('images/default.png')";
     }
 
-    // Stop demo after 20s
+    // Auto-reset after demo ends
     if (customTimes && elapsedTime >= rTime) {
-      setTimeout(() => resetTimer(), 2000); // resets 2s after demo ends
+      setTimeout(() => resetTimer(), 2000);
     }
   }, 1000);
 }
 
+// Pause the timer
 function pauseTimer() {
   clearInterval(timer);
   isRunning = false;
 }
 
+// Reset timer
 function resetTimer() {
   pauseTimer();
   setTimes();
 }
 
-// 🔹 Demo button function
+// Demo button (20 seconds)
 function runDemo() {
   resetTimer();
   elapsedTime = 0;
@@ -119,11 +137,26 @@ function runDemo() {
   startTimer(demoTimes);
 }
 
-// Listeners
-speechOptions.forEach(option => option.addEventListener("click", resetTimer));
+// Special Guest button (15–17 minutes)
+function runGuestTimer() {
+  resetTimer();
+  elapsedTime = 0;
+
+  const guestTimes = {
+    gTime: 15 * 60,
+    yTime: 16 * 60,
+    rTime: 17 * 60,
+  };
+
+  startTimer(guestTimes);
+}
+
+// Event listeners
 startBtn.addEventListener("click", () => startTimer());
 pauseBtn.addEventListener("click", pauseTimer);
 resetBtn.addEventListener("click", resetTimer);
-demoBtn.addEventListener("click", runDemo); // 👈 demo button click
+demoBtn.addEventListener("click", runDemo);
+guestBtn.addEventListener("click", runGuestTimer);
 
+// Initialize
 setTimes();
