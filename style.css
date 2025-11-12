@@ -61,6 +61,14 @@ button, select {
   border-color: #0056b3;
 }
 
+#demoBtn {
+  background-color: #4a90e2;
+  color: white;
+}
+#demoBtn:hover {
+  background-color: #357abd;
+}
+
 
 @media (max-width: 480px) {
   .controls {
