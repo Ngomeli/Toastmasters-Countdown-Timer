@@ -7,6 +7,7 @@ let greenTime, yellowTime, redTime;
 const timeDisplay = document.getElementById("timeDisplay");
 const startBtn = document.getElementById("startBtn");
 const pauseBtn = document.getElementById("pauseBtn");
+const resumeBtn = document.getElementById("resumeBtn");
 const resetBtn = document.getElementById("resetBtn");
 const demoBtn = document.getElementById("demoBtn");
 const guestBtn = document.getElementById("guestBtn");
@@ -14,10 +15,9 @@ const speechButtons = document.querySelectorAll(".speech-btn");
 
 let selectedType = "2-3-eval"; // default type
 
-// Handle button clicks for speech type selection
+// Handle speech type button selection
 speechButtons.forEach(btn => {
   btn.addEventListener("click", () => {
-    // Remove active class from all, then set active on clicked one
     speechButtons.forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
 
@@ -30,7 +30,7 @@ function getSelectedSpeechType() {
   return selectedType;
 }
 
-// Set color change times
+// Set timing for each type
 function setTimes() {
   const type = getSelectedSpeechType();
 
@@ -70,7 +70,7 @@ function setTimes() {
   document.body.style.backgroundImage = "url('images/default.png')";
 }
 
-// Update time display
+// Update timer display
 function updateDisplay() {
   const minutes = Math.floor(elapsedTime / 60);
   const seconds = elapsedTime % 60;
@@ -79,7 +79,7 @@ function updateDisplay() {
     .padStart(2, "0")}`;
 }
 
-// Start timer function
+// Start timer
 function startTimer(customTimes = null) {
   if (isRunning) return;
   isRunning = true;
@@ -94,6 +94,7 @@ function startTimer(customTimes = null) {
     elapsedTime++;
     updateDisplay();
 
+    // Change background based on elapsed time
     if (elapsedTime >= rTime) {
       document.body.style.backgroundImage = "url('images/red.jpg')";
     } else if (elapsedTime >= yTime) {
@@ -104,17 +105,24 @@ function startTimer(customTimes = null) {
       document.body.style.backgroundImage = "url('images/default.png')";
     }
 
-    // Auto-reset after demo ends
+    // Auto stop after demo ends
     if (customTimes && elapsedTime >= rTime) {
       setTimeout(() => resetTimer(), 2000);
     }
   }, 1000);
 }
 
-// Pause the timer
+// Pause timer
 function pauseTimer() {
   clearInterval(timer);
   isRunning = false;
+}
+
+// Resume timer (continues from current elapsedTime)
+function resumeTimer() {
+  if (!isRunning) {
+    startTimer();
+  }
 }
 
 // Reset timer
@@ -123,7 +131,7 @@ function resetTimer() {
   setTimes();
 }
 
-// Demo button (20 seconds)
+// Demo button (20-second demo)
 function runDemo() {
   resetTimer();
   elapsedTime = 0;
@@ -154,6 +162,7 @@ function runGuestTimer() {
 // Event listeners
 startBtn.addEventListener("click", () => startTimer());
 pauseBtn.addEventListener("click", pauseTimer);
+resumeBtn.addEventListener("click", resumeTimer);
 resetBtn.addEventListener("click", resetTimer);
 demoBtn.addEventListener("click", runDemo);
 guestBtn.addEventListener("click", runGuestTimer);
