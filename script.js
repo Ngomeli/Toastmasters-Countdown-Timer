@@ -222,3 +222,32 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize with default preset (2-3)
   selectPreset("2-3");
 });
+
+// ============================
+// Fullscreen Toggle
+// ============================
+
+const fullscreenBtn = document.getElementById("fullscreenBtn");
+
+fullscreenBtn.addEventListener("click", () => {
+  if (!document.fullscreenElement) {
+    // Enter fullscreen
+    document.documentElement.requestFullscreen().catch((err) => {
+      console.error("Error enabling fullscreen:", err);
+    });
+    fullscreenBtn.textContent = "Exit Fullscreen";
+  } else {
+    // Exit fullscreen
+    document.exitFullscreen();
+    fullscreenBtn.textContent = "Fullscreen";
+  }
+});
+
+// Update button label if the user exits fullscreen manually (e.g. ESC key)
+document.addEventListener("fullscreenchange", () => {
+  if (!document.fullscreenElement) {
+    fullscreenBtn.textContent = "Fullscreen";
+  } else {
+    fullscreenBtn.textContent = "Exit Fullscreen";
+  }
+});
