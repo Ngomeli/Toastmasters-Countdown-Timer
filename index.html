@@ -10,28 +10,47 @@
   <div class="timer-container">
     <h1>Toastmasters Timer</h1>
 
-   <div class="controls">
-  <div class="speech-options">
-  <button class="speech-btn" data-type="2-3-eval">Evaluation (2–3 min)</button>
-  <button class="speech-btn" data-type="2-3-table">Table Topic (2–3 min)</button>
-  <button class="speech-btn" data-type="5-7-prep">Prepared Speech (5–7 min)</button>
-  <button class="speech-btn" data-type="5-7-ge">General Eval (5–7 min)</button>
-</div>
+    <div class="controls">
+      <div class="speech-options">
+        <button class="speech-btn active" data-type="2-3">Evaluation / Table Topic (2–3 min)</button>
+        <button class="speech-btn" data-type="5-7">Prepared Speech / GE (5–7 min)</button>
+      </div>
 
-
-  <div class="buttons-container">
-    <div class="buttons">
-      <button id="startBtn">Start</button>
-      <button id="pauseBtn">Pause</button>
-      <button id="resumeBtn">Resume</button>
-      <button id="resetBtn">Reset</button>
-      <button id="demoBtn">Demo</button>
-      <button id="guestBtn">Special Guest</button> <!-- 👈 new button -->
+      <div class="buttons-container">
+        <div class="buttons">
+          <button id="startBtn">Start</button>
+          <button id="pauseBtn">Pause</button>
+          <button id="resumeBtn">Resume</button>
+          <button id="resetBtn">Reset</button>
+          <button id="demoBtn">Demo</button>
+          <button id="customBtn" class="accent">Custom Time</button>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
     <div id="timeDisplay">00:00</div>
+    <div id="allocatedDisplay">Allocated: —</div>
+  </div>
+
+  <!-- Custom modal -->
+  <div id="customModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-content">
+      <h2 id="modalTitle">Set Custom Duration</h2>
+      <div class="modal-body">
+        <label>
+          Minutes
+          <input id="customMinutes" type="number" min="0" step="1" placeholder="e.g. 7" />
+        </label>
+        <label>
+          Seconds
+          <input id="customSeconds" type="number" min="0" max="59" step="1" placeholder="e.g. 30" />
+        </label>
+      </div>
+      <div class="modal-actions">
+        <button id="modalCancel">Cancel</button>
+        <button id="modalSet" class="accent">Set Duration</button>
+      </div>
+    </div>
   </div>
 
   <script src="script.js"></script>
