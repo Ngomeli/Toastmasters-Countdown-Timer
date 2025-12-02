@@ -12,9 +12,10 @@ It visually indicates speaking time by changing the background color — **green
 - 🟩 **Green** when minimum time is reached  
 - 🟨 **Yellow** when buffer/extra time starts  
 - 🟥 **Red** when maximum time is reached  
-- 🗂️ Supports two timing types:
-  - **Speech:** 4–6 minutes  
-  - **Table Topic:** 2–3 minutes  
+- 🗂️ Timing types:
+  - **Ice Breaker Speech:** 4–6 minutes  
+  - **Table Topic/Evaluation:** 2–3 minutes 
+  - **Prepared Speech/GE:** 5–7 minutes 
 - ⏯️ **Start, Pause, Reset** controls  
 - ⚙️ No dependencies — just open in your browser  
 
