@@ -43,6 +43,16 @@ body {
   margin-bottom: 10px;
 }
 
+.speaker-input input {
+  width: 100%;
+  max-width: 320px;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
 /* Buttons */
 button, input[type="number"] {
   padding: 10px 16px;

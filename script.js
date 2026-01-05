@@ -1,5 +1,9 @@
-// script.js
-document.addEventListener('DOMContentLoaded', () => {
+// ============================
+// Toastmasters Countdown Timer – FINAL
+// ============================
+
+document.addEventListener("DOMContentLoaded", () => {
+
   // ============================
   // State
   // ============================
@@ -7,15 +11,22 @@ document.addEventListener('DOMContentLoaded', () => {
   let elapsedSeconds = 0;
   let isRunning = false;
   let allocatedSeconds = 0;
+  let currentCategory = "";
+  let currentColour = "Green";
 
-  // Thresholds (in seconds)
+  const timerLog = [];
+
+  // Thresholds
   let greenThreshold = 0;
   let yellowThreshold = 0;
   let redThreshold = 0;
 
-  // DOM refs
+  // ============================
+  // DOM Elements
+  // ============================
   const timeDisplay = document.getElementById("timeDisplay");
   const allocatedDisplay = document.getElementById("allocatedDisplay");
+
   const startBtn = document.getElementById("startBtn");
   const pauseBtn = document.getElementById("pauseBtn");
   const resumeBtn = document.getElementById("resumeBtn");
@@ -23,6 +34,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const resetBtn = document.getElementById("resetBtn");
   const demoBtn = document.getElementById("demoBtn");
   const customBtn = document.getElementById("customBtn");
+  const fullscreenBtn = document.getElementById("fullscreenBtn");
+  const reportBtn = document.getElementById("reportBtn");
+
   const speechButtons = document.querySelectorAll(".speech-btn");
 
   // Modal
@@ -32,50 +46,48 @@ document.addEventListener('DOMContentLoaded', () => {
   const customMinutes = document.getElementById("customMinutes");
   const customSeconds = document.getElementById("customSeconds");
 
-  // Safe event helper
-  function safeOn(el, evt, fn) {
-    if (el) el.addEventListener(evt, fn);
-  }
+  // Speaker input
+  const speakerNameInput = document.getElementById("speakerName");
 
-  // Format seconds → MM:SS or HH:MM:SS
+  // ============================
+  // Helpers
+  // ============================
+  const safeOn = (el, evt, fn) => el && el.addEventListener(evt, fn);
+
   function formatSeconds(sec) {
-    sec = Math.max(0, Math.floor(sec));
-    const s = sec % 60;
     const m = Math.floor(sec / 60);
-    return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    const s = sec % 60;
+    return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
   }
 
   // ============================
-  // Toastmasters Threshold Rules
+  // Threshold Rules
   // ============================
   function setThresholds(type) {
-    switch (type) {
-      case "2-3": // Table Topics / Evaluation
-        greenThreshold = 2 * 60;
-        yellowThreshold = 2 * 60 + 30;
-        redThreshold = 3 * 60;
-        break;
+    currentCategory = type;
 
-      case "5-7": // Prepared Speech
-        greenThreshold = 5 * 60;
-        yellowThreshold = 6 * 60;
-        redThreshold = 7 * 60;
-        break;
-
-      case "4-6": // Ice Breaker Speech
-        greenThreshold = 4 * 60;
-        yellowThreshold = 5 * 60;
-        redThreshold = 6 * 60;
-        break;
-
-      case "custom": // Custom uses percentages
-        greenThreshold = Math.round(allocatedSeconds * 0.75);
-        yellowThreshold = Math.round(allocatedSeconds * 0.90);
-        redThreshold = allocatedSeconds;
-        break;
-
-      default:
-        greenThreshold = yellowThreshold = redThreshold = 0;
+    if (type === "2-3") {
+      greenThreshold = 120;
+      yellowThreshold = 150;
+      redThreshold = 180;
+      allocatedSeconds = 180;
+    }
+    else if (type === "5-7") {
+      greenThreshold = 300;
+      yellowThreshold = 360;
+      redThreshold = 420;
+      allocatedSeconds = 420;
+    }
+    else if (type === "4-6") {
+      greenThreshold = 240;
+      yellowThreshold = 300;
+      redThreshold = 360;
+      allocatedSeconds = 360;
+    }
+    else if (type === "custom") {
+      greenThreshold = Math.round(allocatedSeconds * 0.75);
+      yellowThreshold = Math.round(allocatedSeconds * 0.9);
+      redThreshold = allocatedSeconds;
     }
   }
 
@@ -84,28 +96,28 @@ document.addEventListener('DOMContentLoaded', () => {
   // ============================
   function render() {
     timeDisplay.textContent = formatSeconds(elapsedSeconds);
-
-    if (!allocatedSeconds) {
-      allocatedDisplay.textContent = "Allocated: —";
-      document.body.style.backgroundImage = "url('images/toastmasters-zoom-virtual-logo.jpg')";
-      return;
-    }
-
-    allocatedDisplay.textContent = `Allocated: ${formatSeconds(allocatedSeconds)}`;
+    allocatedDisplay.textContent = allocatedSeconds
+      ? `Allocated: ${formatSeconds(allocatedSeconds)}`
+      : "Allocated: —";
 
     if (elapsedSeconds >= redThreshold) {
       document.body.style.backgroundImage = "url('images/red.jpg')";
+      currentColour = "Red";
     } else if (elapsedSeconds >= yellowThreshold) {
       document.body.style.backgroundImage = "url('images/yellow.jpg')";
+      currentColour = "Yellow";
     } else if (elapsedSeconds >= greenThreshold) {
       document.body.style.backgroundImage = "url('images/green.jpg')";
+      currentColour = "Green";
     } else {
-      document.body.style.backgroundImage = "url('images/toastmasters-zoom-virtual-logo.jpg')";
+      document.body.style.backgroundImage =
+        "url('images/toastmasters-zoom-virtual-logo.jpg')";
+      currentColour = "Green";
     }
   }
 
   // ============================
-  // Timer Functions
+  // Timer Core
   // ============================
   function tick() {
     elapsedSeconds++;
@@ -113,20 +125,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function startTimer() {
-    if (isRunning) return;
-    if (!allocatedSeconds) {
-      alert("Please choose a preset or set a custom time.");
-      return;
-    }
+    if (isRunning || !allocatedSeconds) return;
     isRunning = true;
     timer = setInterval(tick, 1000);
-    render();
   }
 
   function pauseTimer() {
     if (!isRunning) return;
     clearInterval(timer);
-    timer = null;
     isRunning = false;
   }
 
@@ -137,12 +143,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function stopTimer() {
-  pauseTimer();              // fully stop timer
-  elapsedSeconds = 0;        // reset elapsed
-  document.body.style.backgroundImage = "url('images/toastmasters-zoom-virtual-logo.jpg')";
-  render();                  // update screen
-}
+    pauseTimer();
 
+    const name = speakerNameInput.value.trim() || "Unknown Speaker";
+
+    timerLog.push({
+      name,
+      category: resolveCategoryName(),
+      actualSeconds: elapsedSeconds,
+      colour: currentColour
+    });
+
+    elapsedSeconds = 0;
+    render();
+  }
 
   function resetTimer() {
     pauseTimer();
@@ -151,53 +165,19 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ============================
-  // Preset Selection
+  // Category Name Mapping
   // ============================
-  function selectPreset(type) {
-    switch (type) {
-      case "2-3":
-        allocatedSeconds = 3 * 60; // Max time
-        break;
-
-      case "5-7":
-        allocatedSeconds = 7 * 60; // Max time
-        break;
-
-      case "4-6":
-        allocatedSeconds = 6 * 60; // Max time
-        break;
-
-      default:
-        allocatedSeconds = 0;
-    }
-
-    setThresholds(type);
-    elapsedSeconds = 0;
-    pauseTimer();
-    render();
-  }
-
-  // ============================
-  // Demo Mode
-  // ============================
-  function runDemo() {
-    allocatedSeconds = 20;
-    greenThreshold = 5;
-    yellowThreshold = 10;
-    redThreshold = 15;
-
-    elapsedSeconds = 0;
-    pauseTimer();
-    render();
-    startTimer();
+  function resolveCategoryName() {
+    if (currentCategory === "2-3") return "Evaluators / Table Topics (2–3 min)";
+    if (currentCategory === "5-7") return "Prepared Speech (5–7 min)";
+    if (currentCategory === "4-6") return "Ice Breaker Speech (4–6 min)";
+    return "Custom Speech";
   }
 
   // ============================
   // Custom Modal
   // ============================
   function openCustomModal() {
-    customMinutes.value = "";
-    customSeconds.value = "";
     customModal.classList.remove("hidden");
     customMinutes.focus();
   }
@@ -207,72 +187,112 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function setCustomDuration() {
-    const mins = parseInt(customMinutes.value || "0");
-    const secs = parseInt(customSeconds.value || "0");
-
-    if (isNaN(mins) || isNaN(secs) || mins < 0 || secs < 0 || secs > 59) {
-      alert("Enter a valid time.");
-      return;
-    }
+    const mins = parseInt(customMinutes.value || 0);
+    const secs = parseInt(customSeconds.value || 0);
 
     allocatedSeconds = mins * 60 + secs;
-    if (allocatedSeconds <= 0) {
-      alert("Duration must be greater than zero.");
-      return;
-    }
+    if (allocatedSeconds <= 0) return alert("Invalid time");
 
     setThresholds("custom");
     elapsedSeconds = 0;
-    pauseTimer();
     closeCustomModal();
     render();
   }
 
   // ============================
-  // Event Listeners
+  // PDF REPORT
+  // ============================
+  function generatePDF() {
+    if (!window.jspdf) return alert("jsPDF not loaded");
+
+    if (!timerLog.length) {
+      alert("No timer data to export");
+      return;
+    }
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // Header
+    doc.setFillColor(0, 91, 170);
+    doc.rect(0, 0, 210, 18, "F");
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(16);
+    doc.text("Toastmasters Timers Report", 14, 12);
+
+    doc.setTextColor(0);
+    doc.setFontSize(11);
+    doc.text(`Meeting Date: ${new Date().toLocaleDateString()}`, 14, 26);
+
+    let y = 36;
+    const grouped = {};
+
+    timerLog.forEach(e => {
+      grouped[e.category] = grouped[e.category] || [];
+      grouped[e.category].push(e);
+    });
+
+    Object.keys(grouped).forEach(cat => {
+      doc.setFontSize(13);
+      doc.text(cat, 14, y);
+      y += 6;
+
+      grouped[cat].forEach(e => {
+        doc.setFontSize(11);
+        doc.text(
+          `${e.name} — ${formatSeconds(e.actualSeconds)} (${e.colour})`,
+          18,
+          y
+        );
+        y += 6;
+      });
+
+      y += 6;
+    });
+
+    doc.save("Toastmasters_Timer_Report.pdf");
+  }
+
+  // ============================
+  // Events
   // ============================
   safeOn(startBtn, "click", startTimer);
   safeOn(pauseBtn, "click", pauseTimer);
   safeOn(resumeBtn, "click", resumeTimer);
   safeOn(stopBtn, "click", stopTimer);
   safeOn(resetBtn, "click", resetTimer);
-  safeOn(demoBtn, "click", runDemo);
+  safeOn(demoBtn, "click", () => {
+    allocatedSeconds = 20;
+    greenThreshold = 5;
+    yellowThreshold = 10;
+    redThreshold = 15;
+    elapsedSeconds = 0;
+    startTimer();
+  });
   safeOn(customBtn, "click", openCustomModal);
+  safeOn(modalCancel, "click", closeCustomModal);
+  safeOn(modalSet, "click", setCustomDuration);
+  safeOn(reportBtn, "click", generatePDF);
 
-  // Speech type buttons
   speechButtons.forEach(btn => {
     btn.addEventListener("click", () => {
       speechButtons.forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
-      selectPreset(btn.dataset.type);
+      setThresholds(btn.dataset.type);
+      elapsedSeconds = 0;
+      pauseTimer();
+      render();
     });
   });
 
-  // Modal actions
-  safeOn(modalCancel, "click", closeCustomModal);
-  safeOn(modalSet, "click", setCustomDuration);
-
-  // Enter key inside modal
-  customModal.addEventListener("keydown", e => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      setCustomDuration();
-    } else if (e.key === "Escape") {
-      closeCustomModal();
-    }
-  });
-
-  // Default load preset
-  selectPreset("2-3");
 });
 
-
 // ============================
-// Fullscreen Toggle (unchanged)
+// Fullscreen (outside DOMContentLoaded)
 // ============================
 const fullscreenBtn = document.getElementById("fullscreenBtn");
 
-fullscreenBtn.addEventListener("click", () => {
+fullscreenBtn?.addEventListener("click", () => {
   if (!document.fullscreenElement) {
     document.documentElement.requestFullscreen();
     fullscreenBtn.textContent = "Exit Fullscreen";
@@ -280,9 +300,4 @@ fullscreenBtn.addEventListener("click", () => {
     document.exitFullscreen();
     fullscreenBtn.textContent = "Fullscreen";
   }
-});
-
-document.addEventListener("fullscreenchange", () => {
-  fullscreenBtn.textContent =
-    document.fullscreenElement ? "Exit Fullscreen" : "Fullscreen";
 });

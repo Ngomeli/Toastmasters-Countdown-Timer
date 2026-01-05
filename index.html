@@ -18,6 +18,15 @@
         <button class="speech-btn" data-type="4-6">Ice Breaker Speech (4-6 min)</button>
       </div>
 
+      <div class="speaker-input">
+  <input
+    type="text"
+    id="speakerName"
+    placeholder="Type the speaker's name (e.g.TM_Faith)"
+  />
+</div>
+
+
       <div class="buttons-container">
         <div class="buttons">
           <button id="startBtn">Start</button>
@@ -28,6 +37,8 @@
           <button id="demoBtn">Demo</button>
           <button id="customBtn" class="accent">Custom Time</button>
           <button id="fullscreenBtn">Fullscreen</button>
+          <button id="reportBtn">Generate Report (PDF)</button>
+
 
         </div>
       </div>
@@ -57,7 +68,8 @@
       </div>
     </div>
   </div>
-
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
