@@ -6,18 +6,90 @@ It visually indicates speaking time by changing the background color — **green
 
 ---
 
-## 🎯 Features
+🎯 Key Features
+⏱️ Smart Timing & Visual Cues
 
-- ⏱️ **Countdown Mode** — shows remaining time in minutes and seconds  
-- 🟩 **Green** when minimum time is reached  
-- 🟨 **Yellow** when buffer/extra time starts  
-- 🟥 **Red** when maximum time is reached  
-- 🗂️ Timing types:
-  - **Ice Breaker Speech:** 4–6 minutes  
-  - **Table Topic/Evaluation:** 2–3 minutes 
-  - **Prepared Speech/GE:** 5–7 minutes 
-- ⏯️ **Start, Pause, Reset** controls  
-- ⚙️ No dependencies — just open in your browser  
+Green → minimum time reached
+
+Yellow → buffer / warning time
+
+Red → maximum time exceeded
+
+Smooth background transitions for clear visibility
+
+🗂️ Built-in Toastmasters Presets
+
+Evaluation / Table Topics: 2–3 minutes
+
+Prepared Speech / General Evaluator: 5–7 minutes
+
+Ice Breaker Speech: 4–6 minutes
+
+⚙️ Custom Time Mode
+
+Set any duration (minutes & seconds)
+
+Automatic color thresholds:
+
+🟩 Green at 75%
+
+🟨 Yellow at 90%
+
+🟥 Red at 100%
+
+▶️ Full Timer Controls
+
+Start
+
+Pause
+
+Resume
+
+Stop
+
+Reset
+
+Demo mode (quick testing)
+
+🧑‍🤝‍🧑 Participant Tracking
+
+Enter participant names (Speakers / Evaluators)
+
+Automatically logs:
+
+Role
+
+Allocated time
+
+Actual time taken
+
+Final timing color
+
+📄 PDF Report Generation
+
+Generate a Toastmasters-branded PDF report
+
+Includes:
+
+Meeting title
+
+Date
+
+Participant names
+
+Time taken per role
+
+Color results (Green / Yellow / Red)
+
+Ideal for records, VPE follow-up, or club reporting
+
+🖥️ Fullscreen & OBS-Friendly
+
+Fullscreen toggle for meetings
+
+Works seamlessly as a Zoom profile background using OBS
+
+No screen sharing required (speakers can remain pinned)
 
 ---
 
@@ -28,3 +100,11 @@ It visually indicates speaking time by changing the background color — **green
 | Structure  | HTML5 |
 | Styling    | CSS3 |
 | Logic      | Vanilla JavaScript |
+| Reports    | jsPDF |
+| Hosting    | GitHub Pages (currently) |
+
+---
+
+💡 Motivation
+
+This project was built after serving as a Toastmasters Timer, identifying repetitive manual tasks, and creating a tool to make the role simpler, clearer, and more professional for future timers.
