@@ -72,6 +72,12 @@ document.addEventListener("DOMContentLoaded", () => {
       redThreshold = 180;
       allocatedSeconds = 180;
     }
+    else if (type === "1-2") {
+      greenThreshold = 60;
+      yellowThreshold = 90;
+      redThreshold = 120;
+      allocatedSeconds = 120;
+    }
     else if (type === "5-7") {
       greenThreshold = 300;
       yellowThreshold = 360;
@@ -168,7 +174,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Category Name Mapping
   // ============================
   function resolveCategoryName() {
-    if (currentCategory === "2-3") return "Evaluators / Table Topics (2–3 min)";
+    if (currentCategory === "2-3") return "Evaluators (2–3 min)";
+    if (currentCategory === "1-2") return "Table Topics (1–2 min)";
     if (currentCategory === "5-7") return "Prepared Speech (5–7 min)";
     if (currentCategory === "4-6") return "Ice Breaker Speech (4–6 min)";
     return "Custom Speech";
