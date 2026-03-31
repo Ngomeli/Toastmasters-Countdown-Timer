@@ -19,7 +19,9 @@ Smooth background transitions for clear visibility
 
 🗂️ Built-in Toastmasters Presets
 
-Evaluation / Table Topics: 2–3 minutes
+Evaluation: 2–3 minutes
+
+Table Topics: 1-2 minutes
 
 Prepared Speech / General Evaluator: 5–7 minutes
 
