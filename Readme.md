@@ -23,9 +23,11 @@ Evaluation: 2–3 minutes
 
 Table Topics: 1-2 minutes
 
-Prepared Speech / General Evaluator: 5–7 minutes
+Prepared Speech: 5–7 minutes
 
 Ice Breaker Speech: 4–6 minutes
+
+General Evaluator: 3-5 minutes
 
 ⚙️ Custom Time Mode
 

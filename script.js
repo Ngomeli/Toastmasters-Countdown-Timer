@@ -90,6 +90,12 @@ document.addEventListener("DOMContentLoaded", () => {
       redThreshold = 360;
       allocatedSeconds = 360;
     }
+    else if (type === "3-5"){
+      greenThreshold = 180;
+      yellowThreshold = 240;
+      redThreshold = 300;
+      allocatedSeconds = 300;
+    }
     else if (type === "custom") {
       greenThreshold = Math.round(allocatedSeconds * 0.75);
       yellowThreshold = Math.round(allocatedSeconds * 0.9);
@@ -178,6 +184,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (currentCategory === "1-2") return "Table Topics (1–2 min)";
     if (currentCategory === "5-7") return "Prepared Speech (5–7 min)";
     if (currentCategory === "4-6") return "Ice Breaker Speech (4–6 min)";
+    if (currentCategory === "3-5") return "General Evaluator (3–5 min)";
     return "Custom Speech";
   }
 
